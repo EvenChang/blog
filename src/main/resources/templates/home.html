@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+<body>
+<div th:fragment="posts">
+
+    <a th:href="@{/newPost}">newPost<br></a>
+    <a th:href="@{/newCategory}">newCategory</a>
+
+    <div class="starter-template panel" th:each="post : ${postList}" th:object="${post}">
+        <div class="panel-heading">
+            <h1><a th:text="*{title}">Title</a></h1>
+            <h2 th:text="*{category.name}"> Title</h2>
+            <div th:text="'Created: ' + ${#dates.format(post.createTime, 'yyyy-MM-dd')} + ' by Even Zhang'">
+                Created by
+            </div>
+        </div>
+        <h3 class="panel-body" th:text="*{context}">Body</h3>
+
+        <!--Delete Button-->
+        <!--Dont show delete button if the post is brand new-->
+        <div class="row" th:if="${post.id}">
+            <form action="#" th:action="@{'/deletePost/{id}'(id=${post.id})}" th:method="delete">
+                <div class="form-group">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-danger btn-block" th:text="Delete">Delete</button>
+                </div>
+            </form>
+        </div>
+
+        <!--Only show these buttons if the user is the owner of post-->
+        <div class="row">
+            <a th:href="@{'/editPost/{id}'(id=${post.id})}" class="col-md-2">
+                <button type="button" class="btn btn-primary btn-block" th:text="Edit">Edit</button>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<body>
+
+<div class="container">
+
+    <!--Post-->
+    <div class="jumbotron">
+
+        <h1 th:text="${post.title}">Title</h1>
+        <div th:text="'Created: ' + ${#dates.format(post.createDate, 'dd-MMM-yyyy')} + ' by '">Created by</div>
+        <h3 th:text="${post.context}">Body</h3>
+
+        <!--Only show these buttons if the user is the owner of post-->
+        <div class="row">
+            <a th:href="@{'/editPost/{id}'(id=${post.id})}" class="col-md-2">
+                <button type="button" class="btn btn-primary btn-block" th:text="Edit">Edit</button>
+            </a>
+
+        </div>
+    </div>
+
+
+    <!--Leave a comment button-->
+</div>
+<!-- /.container -->
+
+</body>
+</html>
